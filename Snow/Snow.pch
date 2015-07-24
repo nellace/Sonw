@@ -1,0 +1,24 @@
+//
+//  Snow.pch
+//  Snow
+//
+//  Created by WO on 15/7/3.
+//  Copyright (c) 2015年 sg. All rights reserved.
+//
+
+#ifndef Snow_Snow_pch
+#define Snow_Snow_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define SCR_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCR_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define API_KEY @"9766121cdd0c4dcc8282551d1eb2afda"
+#define API_URL @"http://api.heweather.com/x3/weather?city=beijing&key=9766121cdd0c4dcc8282551d1eb2afda"
+
+#import <UIKit/UIKit.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <CoreLocation/CoreLocation.h>
+#import "Climacons.h"
+#endif
