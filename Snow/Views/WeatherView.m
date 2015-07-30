@@ -14,6 +14,8 @@
 
 #define ARC4RANDOM_MAX 0x010000000
 
+
+
 typedef NS_ENUM(NSInteger, JBLineChartLine){
     JBLineChartLineSolid,
     JBLineChartLineDashed,
@@ -75,6 +77,14 @@ typedef NS_ENUM(NSInteger, JBLineChartLine){
 
 //@property (nonatomic, strong) NSArray *chartData;
 @property (nonatomic, strong) NSArray *daysOfWeek;
+
+
+@property (nonatomic, strong) UIView *dateDescripView;
+
+//
+
+
+
 @end
 
 
@@ -103,10 +113,13 @@ typedef NS_ENUM(NSInteger, JBLineChartLine){
         self.activityIndicator.center = self.center;
         [self.container addSubview:self.activityIndicator];
         
+        
+        
         [self initializeLineChartView];
+        [self initializeDateAndDescription];
         [self initializeUpdatedLabel];
-        [self initializeConditionIconLabel];
-        [self initializeConditionDescriptionLabel];
+//        [self initializeConditionIconLabel];
+//        [self initializeConditionDescriptionLabel];
         [self initializeLocationLabel];
         [self initializeCurrentTemperatureLabel];
         [self initializeHiLoTemperatureLabel];
@@ -213,6 +226,40 @@ typedef NS_ENUM(NSInteger, JBLineChartLine){
     [self.container addSubview:self.hiloTemperatureLabel];
 }
 
+- (void)initializeDateAndDescription
+{
+    NSDateComponents *componets = [[NSCalendar autoupdatingCurrentCalendar] components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
+    NSInteger weekday = [componets weekday];
+    NSArray *array = [self resortTheWeekDays:weekday];
+    
+    
+    self.dateDescripView =[[UIView alloc]initWithFrame:CGRectMake(0, 0.43 * SCR_HEIGHT , SCR_WIDTH, 60)];
+    for (int i = 0; i < 6; i++) {
+        UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCR_WIDTH / 6 )* i, 0, SCR_WIDTH / 6 , 20)];
+        UILabel *descLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCR_WIDTH / 6) * i, 20, SCR_WIDTH / 6, 30)];
+        
+        
+        
+        
+        dateLabel.text = [array objectAtIndex:i];
+        dateLabel.font = [UIFont systemFontOfSize:11];
+        dateLabel.textColor = [UIColor whiteColor];
+        dateLabel.textAlignment = NSTextAlignmentCenter;
+        
+        descLabel.textColor = [UIColor whiteColor];
+        descLabel.textAlignment = NSTextAlignmentCenter;
+        descLabel.tag = 1000 + i;
+        
+        
+        
+        [self.dateDescripView addSubview:dateLabel];
+        [self.dateDescripView addSubview:descLabel];
+        
+    }
+    
+    [self.container addSubview:self.dateDescripView];
+}
+
 - (void)initializeForecastDayLabels
 {
     const NSInteger fontSize = 18;
@@ -266,13 +313,39 @@ typedef NS_ENUM(NSInteger, JBLineChartLine){
 
 - (void)initializeLineChartView
 {
-    self.lineChartView = [[JBLineChartView alloc]initWithFrame:CGRectMake(20, SCR_HEIGHT * 0.5, SCR_WIDTH - 40, SCR_HEIGHT * 0.3)];
+    CGFloat LINECHARTWIDTH = SCR_WIDTH - 40;
+    self.lineChartView = [[JBLineChartView alloc]initWithFrame:CGRectMake(20, SCR_HEIGHT * 0.58, LINECHARTWIDTH, SCR_HEIGHT * 0.20)];
     self.lineChartView.dataSource = self;
     self.lineChartView.delegate = self;
     self.lineChartView.showsVerticalSelection = NO;
+    
+    
+    for (int i = 0; i < 6; i++) {
+        
+        
+        UILabel *dayHighLabel = [[UILabel alloc]initWithFrame:CGRectMake((SCR_WIDTH / 6) * i, SCR_HEIGHT * 0.53, SCR_WIDTH / 6, 20)];
+        
+        UILabel *dayLowLabel =[[UILabel alloc]initWithFrame:CGRectMake((SCR_WIDTH / 6) * i, SCR_HEIGHT * 0.78, SCR_WIDTH / 6, 20)];
+        
+        dayHighLabel.textColor = [UIColor whiteColor];
+        dayHighLabel.font = [UIFont systemFontOfSize:11];
+        dayHighLabel.textAlignment = NSTextAlignmentCenter;
+        dayHighLabel.tag = 2000 + i;
+        
+        dayLowLabel.textColor = [UIColor whiteColor];
+        dayLowLabel.font = [UIFont systemFontOfSize:11];
+        dayLowLabel.textAlignment = NSTextAlignmentCenter;
+        dayLowLabel.tag = 3000 + i;
+        
+        
+        [self.container addSubview:dayLowLabel];
+        [self.container addSubview:dayHighLabel];
+    }
+    
+    
     [self.container addSubview:self.lineChartView];
-//    [self initFakeData];
-//    [lineChartView reloadData];
+    
+    
 }
 
 #pragma mark - JBChartViewDataSource
@@ -331,7 +404,7 @@ typedef NS_ENUM(NSInteger, JBLineChartLine){
 
 - (CGFloat)lineChartView:(JBLineChartView *)lineChartView widthForLineAtLineIndex:(NSUInteger)lineIndex
 {
-    return 1.5;
+    return 1.0;
 }
 
 
@@ -404,4 +477,20 @@ typedef NS_ENUM(NSInteger, JBLineChartLine){
 }
 
 
+- (NSArray*)resortTheWeekDays:(NSInteger)todayInt
+{
+    NSArray *array = @[@"周日",@"周一",@"周二",@"周三",@"周四",@"周五",@"周六",];
+    NSMutableArray *weekdayArray = [NSMutableArray arrayWithArray:array];
+    
+    for (int i = 0 ; i <  todayInt - 1; i++) {
+        id object = [weekdayArray objectAtIndex:0];
+        [weekdayArray removeObjectAtIndex:0];
+        [weekdayArray insertObject:object atIndex:WEEKDAYS-1];
+        
+    }
+    [weekdayArray replaceObjectAtIndex:0 withObject:@"今天"];
+    [weekdayArray replaceObjectAtIndex:1 withObject:@"明天"];
+    
+    return weekdayArray;
+}
 @end

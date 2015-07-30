@@ -39,6 +39,8 @@ static inline Temperature TemperatureMake(CGFloat fahrenheit, CGFloat celsius){
 
 @property (nonatomic, strong) NSString *todayWeatherDescri;
 
+@property (nonatomic, strong) NSMutableArray *weatherDescripCode;
+
 
 @end
 

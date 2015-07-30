@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JBLineChartView.h"
 
+
 @class WeatherData;
 @protocol WeatherViewDelegate <NSObject>
 
@@ -71,5 +72,10 @@
 @property (nonatomic, strong) NSArray *chartData;
 
 @property (nonatomic, strong) JBLineChartView *lineChartView;
+
+@property (nonatomic, strong,readonly) UIView *dateDescripView;
+
+
+
 
 @end

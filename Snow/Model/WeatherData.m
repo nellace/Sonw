@@ -25,6 +25,7 @@ static const NSInteger _num_forecast_snapshots = 3;
         self.todayWeatherDescri =[aDecoder decodeObjectForKey:@"today_weather_descri"];
         self.highTemArray = [aDecoder decodeObjectForKey:@"h_temp_a" ];
         self.lowTemArray = [aDecoder decodeObjectForKey:@"l_temp_a"];
+        self.weatherDescripCode = [aDecoder decodeObjectForKey:@"w_desc_c"];
     }
     return self;
 }
@@ -45,6 +46,7 @@ static const NSInteger _num_forecast_snapshots = 3;
     [aCoder encodeObject:self.highTemArray forKey:@"h_temp_a"];
     [aCoder encodeObject:self.lowTemArray forKey:@"l_temp_a"];
     [aCoder encodeObject:self.todayWeatherDescri forKey:@"today_weather_descri"];
+    [aCoder encodeObject:self.weatherDescripCode forKey:@"w_desc_c"];
 }
 
 @end

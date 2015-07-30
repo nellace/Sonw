@@ -14,8 +14,12 @@
 
 #define SCR_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCR_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+
 #define API_KEY @"9766121cdd0c4dcc8282551d1eb2afda"
 #define API_URL @"http://api.heweather.com/x3/weather?city=beijing&key=9766121cdd0c4dcc8282551d1eb2afda"
+#define WEEKDAYS 7
+#define ALL_FORCAST_DAY 6
 
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SystemConfiguration.h>

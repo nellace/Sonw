@@ -11,7 +11,7 @@
 #import "WeatherData.h"
 #import "NSString+Substring.h"
 
-#define ALL_FORCAST_DAY 7
+
 
 @interface DataDownloader ()
 
@@ -150,13 +150,17 @@
     WeatherData *data =[[WeatherData alloc]init];
     data.currentSnapshots.highTemArray = [[NSMutableArray alloc]init];
     data.currentSnapshots.lowTemArray = [[NSMutableArray alloc]init];
+    data.currentSnapshots.weatherDescripCode  = [NSMutableArray new];
     
     for (int i = 0; i < ALL_FORCAST_DAY; i++) {
         NSArray *forecastArray = [forecastday objectAtIndex:i];
         NSString *highTem = [[forecastArray valueForKey:@"tmp"]  valueForKey:@"max"];
         NSString *lowTem = [[forecastArray valueForKey:@"tmp"]  valueForKey:@"min"];
+        NSString *weatherIconCode = [[forecastArray valueForKey:@"cond"]valueForKey:@"code_d"];
+        
         [data.currentSnapshots.highTemArray addObject:highTem];
         [data.currentSnapshots.lowTemArray addObject:lowTem];
+        [data.currentSnapshots.weatherDescripCode addObject:weatherIconCode];
     }
     
     CGFloat currentHighTemperatureF             = [[[forecastday0 valueForKey:@"tmp"]  valueForKey:@"max"]doubleValue];

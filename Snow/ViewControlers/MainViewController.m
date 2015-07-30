@@ -11,6 +11,7 @@
 #import "StateManager.h"
 #import "PagingScrollView.h"
 #import "UIImage+ImageEffects.h"
+#import "FontHeader.h"
 
 
 /** Constants */
@@ -525,8 +526,22 @@
     weatherView.hasData = YES;
     
     weatherView.chartData = [[NSArray alloc]init];
-//    weatherView.chartData = @[@[@"31",@"35",@"36",@"33",@"34",@"37",@"32"],@[@"28",@"21",@"21",@"24",@"25",@"29",@"18"]];
     weatherView.chartData = [NSArray arrayWithObjects:data.currentSnapshots.highTemArray,data.currentSnapshots.lowTemArray, nil];
+    
+    for (int i = 0; i < WEEKDAYS - 1; i++) {
+        UILabel * dayHighLabel = (UILabel*)[weatherView viewWithTag:2000 + i];
+        dayHighLabel.text = [data.currentSnapshots.highTemArray objectAtIndex:i];
+        
+        UILabel * dayLowLabel = (UILabel*)[weatherView viewWithTag:3000 + i];
+        dayLowLabel.text = [data.currentSnapshots.lowTemArray objectAtIndex:i];
+        
+        UILabel *descrLabel = (UILabel*)[weatherView viewWithTag:1000 + i];
+        descrLabel.font = [UIFont fontWithName:KFontName size:25];
+        NSString *key = [data.currentSnapshots.weatherDescripCode objectAtIndex:i];
+        [descrLabel setText: FontList[key]];
+        
+    }
+    
     
     weatherView.updatedLabel.text = [NSString stringWithFormat:@"Updated %@",[self.dateFormatter stringFromDate:data.timeStamp]];
     
